@@ -1,0 +1,278 @@
+Microsoft Windows [Version 10.0.18363.1256]
+(c) Корпорация Майкрософт (Microsoft Corporation), 2019. Все права защищены.
+
+C:\Users\User10>aws ec2 describe-security-groups
+{
+    "SecurityGroups": [
+        {
+            "Description": "Security group for SSH access",
+            "GroupName": "SSHAccess",
+            "IpPermissions": [
+                {
+                    "FromPort": 22,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 22,
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "OwnerId": "871533708305",
+            "GroupId": "sg-01362800892b7b64a",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "VpcId": "vpc-04e467f2671fbfa1f"
+        },
+        {
+            "Description": "default VPC security group",
+            "GroupName": "default",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "-1",
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "UserIdGroupPairs": [
+                        {
+                            "GroupId": "sg-05621ab98e6a51886",
+                            "UserId": "871533708305"
+                        }
+                    ]
+                }
+            ],
+            "OwnerId": "871533708305",
+            "GroupId": "sg-05621ab98e6a51886",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "VpcId": "vpc-04e467f2671fbfa1f"
+        },
+        {
+            "Description": "default VPC security group",
+            "GroupName": "default",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "-1",
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "UserIdGroupPairs": [
+                        {
+                            "GroupId": "sg-26ed7812",
+                            "UserId": "871533708305"
+                        }
+                    ]
+                }
+            ],
+            "OwnerId": "871533708305",
+            "GroupId": "sg-26ed7812",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "VpcId": "vpc-9431ece9"
+        }
+    ]
+}
+
+
+C:\Users\User10>
+C:\Users\User10>
+C:\Users\User10>
+C:\Users\User10>
+C:\Users\User10>
+C:\Users\User10>
+C:\Users\User10>aws ec2 create-security-group --group-name DmytroSecurity --description "Security group lab 3" --vpc-id vpc-9431ece9
+{
+    "GroupId": "sg-005c0dc92cc6f8f01"
+}
+
+
+C:\Users\User10>aws ec2 authorize-security-group-ingress --group-id sg-005c0dc92cc6f8f01 --protocol tcp --port 22 --cidr 0.0.0.0/0
+
+
+C:\Users\User10>aws ec2 authorize-security-group-ingress --group-id sg-005c0dc92cc6f8f01 --protocol tcp --port 80 --cidr 0.0.0.0/0
+
+
+C:\Users\User10>aws ec2 authorize-security-group-ingress --group-id sg-005c0dc92cc6f8f01 --protocol tcp --port 443 --cidr 0.0.0.0/0
+
+
+C:\Users\User10>aws ec2 create-key-pair --key-name DmytroKeyLab3--query 'Lab3' --output text > DmytroKeyLab3.pem
+usage: aws [options] <command> <subcommand> [<subcommand> ...] [parameters]
+To see help text, you can run:
+
+  aws help
+  aws <command> help
+  aws <command> <subcommand> help
+
+Unknown options: 'Lab3'
+
+C:\Users\User10>aws ec2 create-key-pair --key-name DmytroKeyLab3 --query 'Lab3' --output text > DmytroKeyLab3.pem
+
+C:\Users\User10>aws ec2 modify-subnet-attribute --subnet-id subnet-b90858f4 --map-public-ip-on-launch
+
+
+C:\Users\User10>aws ec2 run-instances --image-id ami-0c52395a97749da98 --count 1 --instance-type t2.micro --key-name DmytroKeyLab3 --security-group-ids sg-005c0dc92cc6f8f01 --subnet-id subnet-b90858f4 --user-data file://apache.txt
+{
+    "Groups": [],
+    "Instances": [
+        {
+            "AmiLaunchIndex": 0,
+            "ImageId": "ami-0c52395a97749da98",
+            "InstanceId": "i-0ddf5c557d23e02e4",
+            "InstanceType": "t2.micro",
+            "KeyName": "DmytroKeyLab3",
+            "LaunchTime": "2020-12-11T00:11:09+00:00",
+            "Monitoring": {
+                "State": "disabled"
+            },
+            "Placement": {
+                "AvailabilityZone": "us-east-1a",
+                "GroupName": "",
+                "Tenancy": "default"
+            },
+            "PrivateDnsName": "ip-172-31-18-102.ec2.internal",
+            "PrivateIpAddress": "172.31.18.102",
+            "ProductCodes": [],
+            "PublicDnsName": "",
+            "State": {
+                "Code": 0,
+                "Name": "pending"
+            },
+            "StateTransitionReason": "",
+            "SubnetId": "subnet-b90858f4",
+            "VpcId": "vpc-9431ece9",
+            "Architecture": "x86_64",
+            "BlockDeviceMappings": [],
+            "ClientToken": "8f645ab2-1c6f-401d-b905-41757245ae73",
+            "EbsOptimized": false,
+            "EnaSupport": true,
+            "Hypervisor": "xen",
+            "NetworkInterfaces": [
+                {
+                    "Attachment": {
+                        "AttachTime": "2020-12-11T00:11:09+00:00",
+                        "AttachmentId": "eni-attach-0fff63d53dde7eb90",
+                        "DeleteOnTermination": true,
+                        "DeviceIndex": 0,
+                        "Status": "attaching"
+                    },
+                    "Description": "",
+                    "Groups": [
+                        {
+                            "GroupName": "DmytroSecurity",
+                            "GroupId": "sg-005c0dc92cc6f8f01"
+                        }
+                    ],
+                    "Ipv6Addresses": [],
+                    "MacAddress": "0a:3f:11:4d:71:31",
+                    "NetworkInterfaceId": "eni-0b569aac9c0d966df",
+                    "OwnerId": "871533708305",
+                    "PrivateDnsName": "ip-172-31-18-102.ec2.internal",
+                    "PrivateIpAddress": "172.31.18.102",
+                    "PrivateIpAddresses": [
+                        {
+                            "Primary": true,
+                            "PrivateDnsName": "ip-172-31-18-102.ec2.internal",
+                            "PrivateIpAddress": "172.31.18.102"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Status": "in-use",
+                    "SubnetId": "subnet-b90858f4",
+                    "VpcId": "vpc-9431ece9",
+                    "InterfaceType": "interface"
+                }
+            ],
+            "RootDeviceName": "/dev/xvda",
+            "RootDeviceType": "ebs",
+            "SecurityGroups": [
+                {
+                    "GroupName": "DmytroSecurity",
+                    "GroupId": "sg-005c0dc92cc6f8f01"
+                }
+            ],
+            "SourceDestCheck": true,
+            "StateReason": {
+                "Code": "pending",
+                "Message": "pending"
+            },
+            "VirtualizationType": "hvm",
+            "CpuOptions": {
+                "CoreCount": 1,
+                "ThreadsPerCore": 1
+            },
+            "CapacityReservationSpecification": {
+                "CapacityReservationPreference": "open"
+            },
+            "MetadataOptions": {
+                "State": "pending",
+                "HttpTokens": "optional",
+                "HttpPutResponseHopLimit": 1,
+                "HttpEndpoint": "enabled"
+            },
+            "EnclaveOptions": {
+                "Enabled": false
+            }
+        }
+    ],
+    "OwnerId": "871533708305",
+    "ReservationId": "r-07835e67434c23fc8"
+}
+
+
+C:\Users\User10>
+C:\Users\User10>
+C:\Users\User10>
+C:\Users\User10>
+C:\Users\User10>
+C:\Users\User10>
+C:\Users\User10>
+C:\Users\User10>
+C:\Users\User10>aws ec2 create-tags --resources i-0ddf5c557d23e02e4 --tags Key=Role,Value=WebServer
+
+
+C:\Users\User10>aws ec2 create-image --instance-id i-0ddf5c557d23e02e4 --name "DmytroLab3" --description "Image (Apache Web Server)"
+{
+    "ImageId": "ami-0bec4e2b8cc21ab38"
+}
+
+
+C:\Users\User10>
+
+C:\Users\User10>
